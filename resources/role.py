@@ -62,7 +62,7 @@ async def super_role(db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_role_regular_user)
 
-    return {'status_code': status.HTTP_201_CREATED, 'success': True, 'message': "1st Regular User Role Create Succesfully"}
+    return {'status_code': status.HTTP_201_CREATED, 'success': True, 'message': "1st Role Create Succesfully"}
 
 
 @role_router.post('/create', status_code=status.HTTP_201_CREATED)
