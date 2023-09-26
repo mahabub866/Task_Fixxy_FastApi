@@ -11,11 +11,12 @@ class PropertyModel(Base):
     id = Column(Integer, primary_key=True)
     uid = Column(String(255), unique=True, nullable=False)
     name = Column(String(80), nullable=False)
+    address = Column(String(80), nullable=False)
+    location = Column(JSON)
     active = Column(Boolean, default=True)
     logs = Column(JSON)
     create_at = Column(DateTime, nullable=True, default=datetime.now(timezone.utc))
 
 
-
     def __repr__(self):
-        return f'<RoleModel {self.name}'
+        return f'<PropertyModel {self.name}'

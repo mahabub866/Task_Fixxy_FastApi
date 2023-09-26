@@ -22,4 +22,4 @@ class RoleUserModel(Base):
 
 
     def __repr__(self):
-        return f'<RoleUserModel {self.name}'
+        return f'<RoleUserModel {self.username}'

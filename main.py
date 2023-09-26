@@ -9,6 +9,8 @@ from fastapi.routing import APIRoute
 from schemas import Settings
 from resources.role import role_router
 from resources.role_user import role_user_router
+from resources.user_property import property_user_router
+from resources.property import property_router
 from fastapi_jwt_auth.exceptions import (
     InvalidHeaderError,
     CSRFError,
@@ -22,13 +24,15 @@ from fastapi_jwt_auth.exceptions import (
 from fastapi.exceptions import RequestValidationError
 import jwt
 from fastapi.responses import JSONResponse
-
+from pydantic import ValidationError
 
 app=FastAPI()
 
 #this is the router connected Place where we connect every router
 app.include_router(role_router)
 app.include_router(role_user_router)
+app.include_router(property_router)
+app.include_router(property_user_router)
 
 #this is for Api documentation
 def custom_openapi():
@@ -84,6 +88,16 @@ def get_config():
 app.openapi = custom_openapi
 
 #Every king of Error Handeler for centerally
+class CustomException(Exception):
+    def __init__(self, message, status_code=500):
+        self.message = message
+        self.status_code = status_code
+
+@app.exception_handler(CustomException)
+async def custom_exception_handler(request, exc):
+    status_code = getattr(exc, "status_code", 500)  # Get status_code if available, otherwise default to 500
+    return JSONResponse(status_code=status_code, content={"message": exc.message})
+
 @app.exception_handler(InvalidHeaderError)
 async def invalid_header_exception_handler(request, exc):
     return JSONResponse(status_code=exc.status_code, content={"message": exc.message})
@@ -124,9 +138,9 @@ async def jwt_decode_exception_handler(request, exc):
 async def jwt_expired_signature_exception_handler(request, exc):
     return JSONResponse(status_code=exc.status_code, content={"message": exc.message})
 
-@app.exception_handler(RequestValidationError)
-async def jwt_expired_signature_exception_handler(request, exc):
-    return JSONResponse(status_code=exc.status_code, content={"message": exc.message})
+# @app.exception_handler(RequestValidationError)
+# async def jwt_expired_signature_exception_handler(request, exc):
+#     return JSONResponse(status_code=exc.status_code, content={"message": exc.message})
 
 
 #model Engine

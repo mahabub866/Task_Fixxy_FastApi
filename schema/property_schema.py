@@ -5,6 +5,7 @@ from typing import  Optional
 #Property Create Schema
 class PropertyModelCreate(BaseModel):
     name: str
+    address: str
     active: Optional[bool] = True
 
     class Config:
@@ -17,6 +18,7 @@ class PropertyModelCreate(BaseModel):
 class PropertyUpdate(BaseModel):
     uid: str
     name: str
+    address: str
     active: bool
 
 

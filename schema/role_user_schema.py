@@ -13,9 +13,19 @@ class RoleUserCreate(BaseModel):
 
     class Config:
         extra = "forbid"
+
+class RoleRegularUserCreate(BaseModel):
+    username: str
+    password: str
+
+    class Config:
+        orm_mode = True
+
+    class Config:
+        extra = "forbid"
 #Login Schema
 class LoginModel(BaseModel):
-    password:str
+    username:str
     password:str
 
     class Config:
@@ -27,7 +37,6 @@ class LoginModel(BaseModel):
 #User Update Schema
 class RoleUserUpdate(BaseModel):
     uid: str
-    username: str
     active: bool
     role:str
 

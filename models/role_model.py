@@ -18,6 +18,5 @@ class RoleModel(Base):
     create_at = Column(DateTime, nullable=True, default=datetime.now(timezone.utc))
 
 
-
     def __repr__(self):
         return f'<RoleModel {self.name}'
