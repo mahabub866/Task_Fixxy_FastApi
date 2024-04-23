@@ -28,8 +28,9 @@ def flatten_list_of_dicts(logs):
 #decode token
 def decode_token(data, db,):
     try:
+        print(data,';;;;;;;;;;;;;;;;;;;;;;')
         payload = jwt.decode(data, AUTHJWT_SECRET_KEY, algorithms=[algo])
-
+        print(payload)
         block_tokens = db.query(BlockModel).filter(
             BlockModel.username == payload['sub']).count()
         if block_tokens >= 20:
